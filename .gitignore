@@ -1,0 +1,142 @@
+# ==========================================
+# OS / Editor
+# ==========================================
+
+.DS_Store
+Thumbs.db
+
+.vscode/
+.idea/
+
+*.swp
+*.swo
+*~
+
+# ==========================================
+# Environment Variables / Secrets
+# ==========================================
+
+.env
+.env.*
+!.env.example
+
+# ==========================================
+# Node / Vite / React
+# ==========================================
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Vite build output
+dist/
+.vite/
+
+# Optional build/cache files
+.cache/
+.parcel-cache/
+
+# ==========================================
+# Python / Django
+# ==========================================
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Django
+*.log
+
+# Django static/media generated files
+staticfiles/
+media/
+
+# Local Django database
+db.sqlite3
+db.sqlite3-journal
+
+# ==========================================
+# Django migrations
+# ==========================================
+# DO NOT ignore migrations.
+# Django migration files should normally be committed.
+
+# ==========================================
+# Coverage / Testing
+# ==========================================
+
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.tox/
+.nox/
+
+# ==========================================
+# Python tooling
+# ==========================================
+
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.ruff_cache/
+
+# ==========================================
+# Jupyter Notebook
+# ==========================================
+
+.ipynb_checkpoints/
+
+# ==========================================
+# Temporary / Generated Files
+# ==========================================
+
+*.tmp
+*.temp
+*.bak
+
+# ==========================================
+# Logs
+# ==========================================
+
+logs/
+*.log
+
+# ==========================================
+# Mac
+# ==========================================
+
+.AppleDouble
+.LSOverride
+
+# ==========================================
+# Windows
+# ==========================================
+
+ehthumbs.db
+Desktop.ini
+
+# ==========================================
+# Linux
+# ==========================================
+
+*~
+
+# ==========================================
+# Project-specific
+# ==========================================
+
+# Local uploads
+uploads/
+
+# Temporary files
+tmp/
+temp/
