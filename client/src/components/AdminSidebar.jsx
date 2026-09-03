@@ -21,7 +21,7 @@ const navItems = [
   { to: '/menu', label: 'Menu', icon: UtensilsCrossed },
   { to: '/categories', label: 'Categories', icon: Tags },
   { to: '/customers', label: 'Customers', icon: Users },
-  { to: '/staff', label: 'Staff', icon: UserCog },
+  { to: '/users', label: 'Users', icon: UserCog },
   { to: '/inventory', label: 'Inventory', icon: Package },
   { to: '/reports', label: 'Reports', icon: BarChart3 },
   { to: '/settings', label: 'Settings', icon: Settings },
@@ -32,6 +32,7 @@ export default function AdminSidebar() {
 
   const username = localStorage.getItem('username') || 'Admin User'
   const role = localStorage.getItem('user_role') || ''
+  const isSuperuser = localStorage.getItem('is_superuser') === 'true'
   const initial = username.charAt(0).toUpperCase()
 
   const handleLogout = () => {
@@ -40,6 +41,7 @@ export default function AdminSidebar() {
     localStorage.removeItem('username')
     localStorage.removeItem('user_role')
     localStorage.removeItem('user_id')
+    localStorage.removeItem('is_superuser')
     navigate('/login', { replace: true })
   }
 
@@ -81,7 +83,12 @@ export default function AdminSidebar() {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-gray-900 truncate">{username}</p>
-            <p className="text-xs text-gray-500 truncate">{role}</p>
+            <p className="text-xs text-gray-500 truncate flex items-center gap-1">
+              {role}
+              {isSuperuser && (
+                <span className="text-brand-600 font-semibold">· Super admin</span>
+              )}
+            </p>
           </div>
         </div>
 

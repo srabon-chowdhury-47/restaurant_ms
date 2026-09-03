@@ -21,14 +21,15 @@ class UserSerializer(serializers.ModelSerializer):
             "phone",
             "role",
             "is_active",
+            "is_superuser",
             "date_joined",
         ]
 
         read_only_fields = [
             "id",
+            "is_superuser",
             "date_joined",
         ]
-
 
 class UserCreateSerializer(serializers.ModelSerializer):
     """
@@ -112,3 +113,15 @@ class ChangePasswordSerializer(serializers.Serializer):
             )
 
         return value
+
+class AdminResetPasswordSerializer(serializers.Serializer):
+    """
+    Serializer for an admin/staff resetting another user's password.
+
+    No old-password check, no password-strength validation.
+    """
+
+    new_password = serializers.CharField(
+        write_only=True,
+        required=True,
+    )

@@ -1,15 +1,23 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../apis/axiosinstance";
 
 const Login = () => {
   const navigate = useNavigate();
+  const passwordRef = useRef(null);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+
+  const handleUsernameKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      passwordRef.current?.focus();
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -40,6 +48,7 @@ const Login = () => {
       localStorage.setItem("username", me.username);
       localStorage.setItem("user_role", me.role);
       localStorage.setItem("user_id", me.id);
+      localStorage.setItem("is_superuser", me.is_superuser);
 
       navigate("/dashboard");
     } catch (err) {
@@ -90,6 +99,7 @@ const Login = () => {
               autoComplete="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              onKeyDown={handleUsernameKeyDown}
               className="w-full rounded-md border border-neutral-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-neutral-900"
               placeholder="admin"
             />
@@ -105,6 +115,7 @@ const Login = () => {
             <div className="relative">
               <input
                 id="password"
+                ref={passwordRef}
                 type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
                 value={password}
