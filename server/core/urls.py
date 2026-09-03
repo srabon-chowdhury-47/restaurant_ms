@@ -25,9 +25,7 @@ def master_api_root(request):
 
     return Response({
         "1. User / Authentication API": request.build_absolute_uri("/api/users/"),
-        
-
-    
+        "2. Menu API": request.build_absolute_uri("/api/menu/"),
     })
 
 
@@ -73,7 +71,11 @@ urlpatterns = [
         include("user.urls"),
     ),
 
-    
+    # Menu API (Categories + Menu Items)
+    path(
+        "api/menu/",
+        include("menu.urls"),
+    ),
 
 
     # --- JWT TOKEN AUTHENTICATION ---
