@@ -1,3 +1,7 @@
+# Run it on network so that it can be accessed from other devices on the same network. Use the following command to run the Django development server on all available network interfaces :
+# python manage.py runserver 0.0.0.0:8000
+
+
 from datetime import timedelta
 from pathlib import Path
 from corsheaders.defaults import default_headers
@@ -15,7 +19,9 @@ SECRET_KEY = 'django-insecure-%98jek90s(uh%2mx*^(4y$s#&23xa==kyzf#q)-o$5r!8drl^#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# Dev-only: accept requests to any host/IP on your LAN.
+# Do NOT ship this to production — set explicit hostnames there instead.
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -127,10 +133,9 @@ MAILERS = {
     },
 }
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-]
-
+# Dev-only: allow any origin on your LAN to hit the API.
+# Do NOT ship CORS_ALLOW_ALL_ORIGINS = True to production.
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_HEADERS = list(default_headers) + ["authorization"]
 
 MEDIA_URL = "/media/"

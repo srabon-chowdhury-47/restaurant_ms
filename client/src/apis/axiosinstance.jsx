@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const BASE_URL = "http://127.0.0.1:8000/api";
+const API_PORT = 8000;
+
+const BASE_URL = `http://${window.location.hostname}:${API_PORT}/api`;
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
