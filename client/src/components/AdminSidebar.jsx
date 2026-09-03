@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard,
   ShoppingCart,
@@ -11,6 +11,7 @@ import {
   BarChart3,
   Settings,
   ChefHat,
+  LogOut,
 } from 'lucide-react'
 
 const navItems = [
@@ -27,6 +28,21 @@ const navItems = [
 ]
 
 export default function AdminSidebar() {
+  const navigate = useNavigate()
+
+  const username = localStorage.getItem('username') || 'Admin User'
+  const role = localStorage.getItem('user_role') || ''
+  const initial = username.charAt(0).toUpperCase()
+
+  const handleLogout = () => {
+    localStorage.removeItem('access_token')
+    localStorage.removeItem('refresh_token')
+    localStorage.removeItem('username')
+    localStorage.removeItem('user_role')
+    localStorage.removeItem('user_id')
+    navigate('/login', { replace: true })
+  }
+
   return (
     <aside className="w-64 bg-white border-r border-gray-200 flex flex-col h-screen sticky top-0">
       <div className="flex items-center gap-3 px-6 py-5 border-b border-gray-100">
@@ -58,16 +74,24 @@ export default function AdminSidebar() {
         ))}
       </nav>
 
-      <div className="px-4 py-4 border-t border-gray-100">
+      <div className="px-4 py-4 border-t border-gray-100 space-y-3">
         <div className="flex items-center gap-3 px-2">
           <div className="w-8 h-8 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center text-sm font-semibold">
-            A
+            {initial}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">Admin User</p>
-            <p className="text-xs text-gray-500 truncate">admin@resto.com</p>
+            <p className="text-sm font-medium text-gray-900 truncate">{username}</p>
+            <p className="text-xs text-gray-500 truncate">{role}</p>
           </div>
         </div>
+
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors"
+        >
+          <LogOut className="w-5 h-5" />
+          Logout
+        </button>
       </div>
     </aside>
   )
