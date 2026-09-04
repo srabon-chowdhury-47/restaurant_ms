@@ -4,6 +4,7 @@ import Login from './components/login'
 
 import Dashboard from './pages/admin/Dashboard'
 import Orders from './pages/admin/Orders'
+import AddOrder from './pages/admin/AddOrder'
 import Tables from './pages/admin/Tables'
 import Menu from './pages/admin/Menu'
 import Categories from './pages/admin/Categories'
@@ -34,6 +35,7 @@ export default function AppRoutes() {
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/add-order" element={<AddOrder />} />
           <Route path="/tables" element={<Tables />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/categories" element={<Categories />} />

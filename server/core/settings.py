@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     "user",
     "customer",
     "menu",
+    "table",
+    "order",
 ]
 
 AUTH_USER_MODEL = "user.User"

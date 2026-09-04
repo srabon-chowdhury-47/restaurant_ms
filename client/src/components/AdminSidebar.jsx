@@ -2,29 +2,52 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard,
   ShoppingCart,
+  ClipboardList,
   Grid3X3,
   UtensilsCrossed,
   Tags,
   Users,
   UserCog,
-  Package,
   BarChart3,
   Settings,
   ChefHat,
   LogOut,
 } from 'lucide-react'
 
-const navItems = [
-  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/orders', label: 'Orders', icon: ShoppingCart },
-  { to: '/tables', label: 'Tables', icon: Grid3X3 },
-  { to: '/menu', label: 'Menu', icon: UtensilsCrossed },
-  { to: '/categories', label: 'Categories', icon: Tags },
-  { to: '/customers', label: 'Customers', icon: Users },
-  { to: '/users', label: 'Users', icon: UserCog },
-  { to: '/inventory', label: 'Inventory', icon: Package },
-  { to: '/reports', label: 'Reports', icon: BarChart3 },
-  { to: '/settings', label: 'Settings', icon: Settings },
+const navGroups = [
+  {
+    label: null,
+    items: [{ to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard }],
+  },
+  {
+    label: 'Orders',
+    items: [
+      { to: '/add-order', label: 'Add Order', icon: ShoppingCart },
+      { to: '/orders', label: 'Orders List', icon: ClipboardList },
+    ],
+  },
+  {
+    label: 'Restaurant',
+    items: [
+      { to: '/tables', label: 'Tables', icon: Grid3X3 },
+      { to: '/menu', label: 'Menu', icon: UtensilsCrossed },
+      { to: '/categories', label: 'Categories', icon: Tags },
+    ],
+  },
+  {
+    label: 'People',
+    items: [
+      { to: '/customers', label: 'Customers', icon: Users },
+      { to: '/users', label: 'Users', icon: UserCog },
+    ],
+  },
+  {
+    label: null,
+    items: [
+      { to: '/reports', label: 'Reports', icon: BarChart3 },
+      { to: '/settings', label: 'Settings', icon: Settings },
+    ],
+  },
 ]
 
 export default function AdminSidebar() {
@@ -57,22 +80,33 @@ export default function AdminSidebar() {
         </div>
       </div>
 
-      <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
-        {navItems.map(({ to, label, icon: Icon }) => (
-          <NavLink
-            key={to}
-            to={to}
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                isActive
-                  ? 'bg-brand-50 text-brand-700'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-              }`
-            }
-          >
-            <Icon className="w-5 h-5" />
-            {label}
-          </NavLink>
+      <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-4">
+        {navGroups.map((group, i) => (
+          <div key={i}>
+            {group.label && (
+              <p className="px-3 mb-1 text-[11px] font-semibold text-gray-400 uppercase tracking-wide">
+                {group.label}
+              </p>
+            )}
+            <div className="space-y-1">
+              {group.items.map(({ to, label, icon: Icon }) => (
+                <NavLink
+                  key={to}
+                  to={to}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                      isActive
+                        ? 'bg-brand-50 text-brand-700'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    }`
+                  }
+                >
+                  <Icon className="w-5 h-5" />
+                  {label}
+                </NavLink>
+              ))}
+            </div>
+          </div>
         ))}
       </nav>
 

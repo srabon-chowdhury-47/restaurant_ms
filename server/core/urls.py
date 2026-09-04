@@ -26,6 +26,9 @@ def master_api_root(request):
     return Response({
         "1. User / Authentication API": request.build_absolute_uri("/api/users/"),
         "2. Menu API": request.build_absolute_uri("/api/menu/"),
+        "3. Customer API": request.build_absolute_uri("/api/customers/"),
+        "4. Table API": request.build_absolute_uri("/api/tables/"),
+        "5. Order API": request.build_absolute_uri("/api/orders/"),
     })
 
 
@@ -75,6 +78,23 @@ urlpatterns = [
     path(
         "api/menu/",
         include("menu.urls"),
+    ),
+
+    # Customer API
+    path(
+        "api/customers/",
+        include("customer.urls"),
+    ),
+
+    # Table API
+    path(
+        "api/tables/",
+        include("table.urls"),
+    ),
+    # Order API
+    path(
+        "api/orders/",
+        include("order.urls"),
     ),
 
 

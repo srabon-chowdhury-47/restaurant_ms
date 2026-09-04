@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { UserCog, Plus, Pencil, Trash2, KeyRound, X, Lock } from 'lucide-react'
+import { UserCog, Plus, Pencil, Trash2, KeyRound, X } from 'lucide-react'
 import axiosInstance from '../../apis/axiosinstance'
 
 const ROLE_OPTIONS = [
@@ -15,12 +15,6 @@ const emptyForm = {
   phone: '',
   role: 'STAFF',
   password: '',
-}
-
-const emptyOwnPasswordForm = {
-  old_password: '',
-  new_password: '',
-  confirm_password: '',
 }
 
 export default function Users() {
@@ -42,11 +36,6 @@ export default function Users() {
   const [deleteTarget, setDeleteTarget] = useState(null)
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState('')
-
-  const [ownPasswordForm, setOwnPasswordForm] = useState(emptyOwnPasswordForm)
-  const [ownPasswordError, setOwnPasswordError] = useState('')
-  const [ownPasswordSuccess, setOwnPasswordSuccess] = useState('')
-  const [changingOwnPassword, setChangingOwnPassword] = useState(false)
 
   const currentUsername = localStorage.getItem('username') || ''
   const isSuperuser = localStorage.getItem('is_superuser') === 'true'
@@ -230,52 +219,6 @@ export default function Users() {
     }
   }
 
-  // --- Self: change my own password (old password required) ---
-
-  const handleOwnPasswordChange = (field) => (e) => {
-    setOwnPasswordForm((prev) => ({ ...prev, [field]: e.target.value }))
-  }
-
-  const handleOwnPasswordSubmit = async (e) => {
-    e.preventDefault()
-    setOwnPasswordError('')
-    setOwnPasswordSuccess('')
-
-    if (!ownPasswordForm.old_password) {
-      setOwnPasswordError('Enter your current password.')
-      return
-    }
-    if (!ownPasswordForm.new_password || ownPasswordForm.new_password.length < 4) {
-      setOwnPasswordError('New password must be at least 4 characters.')
-      return
-    }
-    if (ownPasswordForm.new_password !== ownPasswordForm.confirm_password) {
-      setOwnPasswordError('New password and confirmation do not match.')
-      return
-    }
-
-    setChangingOwnPassword(true)
-    try {
-      await axiosInstance.post('/users/users/change-password/', {
-        old_password: ownPasswordForm.old_password,
-        new_password: ownPasswordForm.new_password,
-      })
-      setOwnPasswordSuccess('Password changed successfully.')
-      setOwnPasswordForm(emptyOwnPasswordForm)
-    } catch (err) {
-      const data = err.response && err.response.data
-      if (data && data.old_password) {
-        setOwnPasswordError(
-          Array.isArray(data.old_password) ? data.old_password[0] : data.old_password
-        )
-      } else {
-        setOwnPasswordError('Could not change password. Please try again.')
-      }
-    } finally {
-      setChangingOwnPassword(false)
-    }
-  }
-
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
@@ -303,78 +246,6 @@ export default function Users() {
           <Plus className="w-4 h-4" />
           Add user
         </button>
-      </div>
-
-      {/* Change my own password */}
-      <div className="bg-white border border-gray-200 rounded-lg p-5 mb-6">
-        <div className="flex items-center gap-2 mb-4">
-          <Lock className="w-4 h-4 text-gray-500" />
-          <h2 className="text-sm font-semibold text-gray-900">
-            Change my password
-          </h2>
-        </div>
-
-        {ownPasswordError && (
-          <div className="mb-3 rounded-md bg-red-50 border border-red-200 px-3 py-2 text-sm text-red-700">
-            {ownPasswordError}
-          </div>
-        )}
-        {ownPasswordSuccess && (
-          <div className="mb-3 rounded-md bg-green-50 border border-green-200 px-3 py-2 text-sm text-green-700">
-            {ownPasswordSuccess}
-          </div>
-        )}
-
-        <form
-          onSubmit={handleOwnPasswordSubmit}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end"
-        >
-          <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">
-              Current password
-            </label>
-            <input
-              type="password"
-              value={ownPasswordForm.old_password}
-              onChange={handleOwnPasswordChange('old_password')}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-600"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">
-              New password
-            </label>
-            <input
-              type="password"
-              value={ownPasswordForm.new_password}
-              onChange={handleOwnPasswordChange('new_password')}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-600"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">
-              Confirm new password
-            </label>
-            <input
-              type="password"
-              value={ownPasswordForm.confirm_password}
-              onChange={handleOwnPasswordChange('confirm_password')}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-600"
-            />
-          </div>
-
-          <div className="sm:col-span-3">
-            <button
-              type="submit"
-              disabled={changingOwnPassword}
-              className="px-4 py-2 rounded-md text-sm font-medium bg-brand-600 text-white hover:bg-brand-700 disabled:opacity-50"
-            >
-              {changingOwnPassword ? 'Updating...' : 'Update password'}
-            </button>
-          </div>
-        </form>
       </div>
 
       {error && (
